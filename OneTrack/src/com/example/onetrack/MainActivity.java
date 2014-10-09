@@ -48,17 +48,17 @@ public class MainActivity extends ActionBarActivity implements
 	}
 
 	@Override
-	public void onNavigationDrawerItemSelected(int position) {
+	public void onNavigationDrawerItemSelected(int position, String title) {
 		// update the main content by replacing fragments
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		fragmentManager
 				.beginTransaction()
 				.replace(R.id.container,
-						PlaceholderFragment.newInstance(position + 1)).commit();
+						PlaceholderFragment.newInstance(position + 1, title)).commit();
 	}
 
-	public void onSectionAttached(int number) {
-		switch (number) {
+	public void onSectionAttached( String title) {
+		/*switch (number) {
 		case 1:
 			mTitle = getString(R.string.title_section1);
 			break;
@@ -68,7 +68,8 @@ public class MainActivity extends ActionBarActivity implements
 		case 3:
 			mTitle = getString(R.string.title_section3);
 			break;
-		}
+		}*/
+		mTitle = title;
 	}
 
 	public void restoreActionBar() {
@@ -116,10 +117,11 @@ public class MainActivity extends ActionBarActivity implements
 		/**
 		 * Returns a new instance of this fragment for the given section number.
 		 */
-		public static PlaceholderFragment newInstance(int sectionNumber) {
+		public static PlaceholderFragment newInstance(int sectionNumber, String title) {
 			PlaceholderFragment fragment = new PlaceholderFragment();
 			Bundle args = new Bundle();
-			args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+			args.putString(ARG_SECTION_NUMBER, title);
+			//args.putInt(ARG_SECTION_NUMBER, sectionNumber);
 			fragment.setArguments(args);
 			return fragment;
 		}
@@ -138,7 +140,7 @@ public class MainActivity extends ActionBarActivity implements
 		@Override
 		public void onAttach(Activity activity) {
 			super.onAttach(activity);
-			((MainActivity) activity).onSectionAttached(getArguments().getInt(
+			((MainActivity) activity).onSectionAttached(getArguments().getString(
 					ARG_SECTION_NUMBER));
 		}
 	}

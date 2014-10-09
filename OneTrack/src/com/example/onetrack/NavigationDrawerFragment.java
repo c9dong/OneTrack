@@ -1,11 +1,8 @@
 package com.example.onetrack;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -14,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -88,9 +85,12 @@ public class NavigationDrawerFragment extends Fragment {
 					.getInt(STATE_SELECTED_POSITION);
 			mFromSavedInstanceState = true;
 		}
-
+		setListData();
 		// Select either the default item (0) or the last selected item.
-		selectItem(mCurrentSelectedPosition);
+		String title = drawerListViewValueArr[mCurrentSelectedPosition].getCategoryName();
+		//String title = "title";
+		//Log.v("current position", ""+mCurrentSelect0edPosition);
+		selectItem(mCurrentSelectedPosition,title);
 	}
 
 	@Override
@@ -111,7 +111,11 @@ public class NavigationDrawerFragment extends Fragment {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view,
 							int position, long id) {
-						selectItem(position);
+						mCurrentSelectedPosition = position;
+						String title = drawerListViewValueArr[mCurrentSelectedPosition].getCategoryName();
+						Log.v(title, ""+mCurrentSelectedPosition);
+						//String title = "title";
+						selectItem(position,title);
 					}
 				});
 		setListData();
@@ -135,7 +139,9 @@ public class NavigationDrawerFragment extends Fragment {
 				 new DrawerListModel(R.drawable.ic_launcher, "All"),
 				 new DrawerListModel(R.drawable.ic_launcher, "Entertainment"),
 				 new DrawerListModel(R.drawable.ic_launcher, "Grocery"),
-				 new DrawerListModel(R.drawable.ic_launcher, "Education")
+				 new DrawerListModel(R.drawable.ic_launcher, "Education"),
+				 new DrawerListModel(R.drawable.ic_launcher, "Cat1"),
+				 new DrawerListModel(R.drawable.ic_launcher, "Cat2")
 		 };
 	 }
 	
@@ -233,7 +239,7 @@ public class NavigationDrawerFragment extends Fragment {
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 	}
 
-	private void selectItem(int position) {
+	private void selectItem(int position, String title) {
 		mCurrentSelectedPosition = position;
 		if (mDrawerListView != null) {
 			mDrawerListView.setItemChecked(position, true);
@@ -242,7 +248,7 @@ public class NavigationDrawerFragment extends Fragment {
 			mDrawerLayout.closeDrawer(mFragmentContainerView);
 		}
 		if (mCallbacks != null) {
-			mCallbacks.onNavigationDrawerItemSelected(position);
+			mCallbacks.onNavigationDrawerItemSelected(position,title);
 		}
 	}
 
@@ -328,6 +334,6 @@ public class NavigationDrawerFragment extends Fragment {
 		/**
 		 * Called when an item in the navigation drawer is selected.
 		 */
-		void onNavigationDrawerItemSelected(int position);
+		void onNavigationDrawerItemSelected(int position,String title);
 	}
 }

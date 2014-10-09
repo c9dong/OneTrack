@@ -1,14 +1,23 @@
 package com.example.DrawerListView;
 
 public class DrawerListModel {
+	
+	private int tableId;
 	private int iconImage;
 	private String categoryName;
 	
-	public DrawerListModel(int iconImage, String categoryName){
+	public DrawerListModel(int tableId, int iconImage, String categoryName){
+		this.tableId = tableId;
 		this.iconImage = iconImage;
 		this.categoryName = categoryName;
 	}
 	
+	public int getTableId(){
+		return tableId;
+	}
+	public void setTableId(int tableId){
+		this.tableId = tableId;
+	}
 	public int getIconImage() {
 		return iconImage;
 	}

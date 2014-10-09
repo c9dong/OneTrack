@@ -1,5 +1,7 @@
 package com.example.onetrack;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -24,6 +26,8 @@ import android.widget.Toast;
 
 import com.example.DrawerListView.DrawerAdapter;
 import com.example.DrawerListView.DrawerListModel;
+import com.example.SQLiteDB.Category;
+import com.example.SQLiteDB.TrackerDBHelper;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation
@@ -66,6 +70,8 @@ public class NavigationDrawerFragment extends Fragment {
 	private DrawerListModel drawerListViewValueArr[];
 	private DrawerAdapter adapter;
 	
+	private TrackerDBHelper dbHelper;
+	
 	public NavigationDrawerFragment() {
 	}
 
@@ -85,6 +91,9 @@ public class NavigationDrawerFragment extends Fragment {
 					.getInt(STATE_SELECTED_POSITION);
 			mFromSavedInstanceState = true;
 		}
+		
+		dbHelper = new TrackerDBHelper(getActivity());
+		
 		setListData();
 		// Select either the default item (0) or the last selected item.
 		String title = drawerListViewValueArr[mCurrentSelectedPosition].getCategoryName();
@@ -122,27 +131,22 @@ public class NavigationDrawerFragment extends Fragment {
 		adapter = new DrawerAdapter(getActionBar()
 				.getThemedContext(), R.layout.drawer_tab_item,
 				android.R.id.text1, drawerListViewValueArr);
-		//adapter = new DrawerAdapter(this.getActivity(),drawerListViewValueArr,res);
-		/*mDrawerListView.setAdapter(new ArrayAdapter<String>(getActionBar()
-				.getThemedContext(), android.R.layout.simple_list_item_1,
-				android.R.id.text1, new String[] {
-						getString(R.string.title_section1),
-						getString(R.string.title_section2),
-						getString(R.string.title_section3), }));*/
+
 		mDrawerListView.setAdapter(adapter);
 		mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 		return mDrawerListView;
 	}
 
 	 private void setListData(){
-		 drawerListViewValueArr = new DrawerListModel[] {
-				 new DrawerListModel(R.drawable.ic_launcher, "All"),
-				 new DrawerListModel(R.drawable.ic_launcher, "Entertainment"),
-				 new DrawerListModel(R.drawable.ic_launcher, "Grocery"),
-				 new DrawerListModel(R.drawable.ic_launcher, "Education"),
-				 new DrawerListModel(R.drawable.ic_launcher, "Cat1"),
-				 new DrawerListModel(R.drawable.ic_launcher, "Cat2")
-		 };
+	//	 dbHelper.dropTable();
+		 ArrayList<Category> allCategories = dbHelper.getAllCategory();
+		 int size = allCategories.size();
+		 drawerListViewValueArr = new DrawerListModel[size];
+		 for(int i=0;i<size;i++){
+			 drawerListViewValueArr[i] = new DrawerListModel(allCategories.get(i).getId(),
+					 R.drawable.ic_launcher,
+					 allCategories.get(i).getCategoryName());
+		 }
 	 }
 	
 	public boolean isDrawerOpen() {

@@ -41,26 +41,7 @@ public class DrawerAdapter extends ArrayAdapter<DrawerListModel>{
 		if(row == null){
 			LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);	
 			row = inflater.inflate(resource, parent, false);
-			
-			//holder = new ViewHolder();
-			//holder.iconImage = (ImageView)row.findViewById(R.id.iconImage);
-			//holder.categoryName = (TextView)row.findViewById(R.id.categoryName);
-			
-			//row.setTag(holder);
-		}//else{
-			//holder = (ViewHolder)row.getTag();
-		//}
-		
-		/*if(data.length<=0){
-			holder.categoryName.setText("No Category");
-		}else{
-			DrawerListModel model = (DrawerListModel)data[position];
-			
-			holder.iconImage.setImageResource(model.getIconImage());
-			
-			holder.categoryName.setText(model.getCategoryName());
-			
-		}*/
+		}
 		DrawerListModel model = data[position];
 		if(model != null){
 			ImageView iconImage = (ImageView)row.findViewById(R.id.iconImage);

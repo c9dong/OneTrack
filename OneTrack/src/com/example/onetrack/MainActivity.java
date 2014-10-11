@@ -1,22 +1,26 @@
 package com.example.onetrack;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
-import android.os.Bundle;
-import android.view.Gravity;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import com.example.SQLiteDB.Category;
+import com.example.SQLiteDB.Item;
+import com.example.SQLiteDB.TrackerDBHelper;
 
 public class MainActivity extends ActionBarActivity implements
 		NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -33,6 +37,7 @@ public class MainActivity extends ActionBarActivity implements
 	 */
 	private CharSequence mTitle;
 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,6 +46,7 @@ public class MainActivity extends ActionBarActivity implements
 		mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.navigation_drawer);
 		mTitle = getTitle();
+		
 
 		// Set up the drawer.
 		mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
@@ -48,27 +54,16 @@ public class MainActivity extends ActionBarActivity implements
 	}
 
 	@Override
-	public void onNavigationDrawerItemSelected(int position, String title) {
+	public void onNavigationDrawerItemSelected(int position, Category category) {
 		// update the main content by replacing fragments
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		fragmentManager
 				.beginTransaction()
 				.replace(R.id.container,
-						PlaceholderFragment.newInstance(position + 1, title)).commit();
+						PlaceholderFragment.newInstance(position + 1, category)).commit();
 	}
 
-	public void onSectionAttached( String title) {
-		/*switch (number) {
-		case 1:
-			mTitle = getString(R.string.title_section1);
-			break;
-		case 2:
-			mTitle = getString(R.string.title_section2);
-			break;
-		case 3:
-			mTitle = getString(R.string.title_section3);
-			break;
-		}*/
+	public void onSectionAttached(int position, int id, String title) {
 		mTitle = title;
 	}
 
@@ -113,15 +108,24 @@ public class MainActivity extends ActionBarActivity implements
 		 * fragment.
 		 */
 		private static final String ARG_SECTION_NUMBER = "section_number";
+		private static final String ARG_SECTION_ID = "section_id";
+		private static final String ARG_SECTION_NAME = "section_name";
+		
+		TextView sectionLabel;
+		ListView itemContent;
+		TrackerDBHelper db;
+		
+		Item[] itemListviewVal;
 
 		/**
 		 * Returns a new instance of this fragment for the given section number.
 		 */
-		public static PlaceholderFragment newInstance(int sectionNumber, String title) {
+		public static PlaceholderFragment newInstance(int sectionNumber, Category category) {
 			PlaceholderFragment fragment = new PlaceholderFragment();
 			Bundle args = new Bundle();
-			args.putString(ARG_SECTION_NUMBER, title);
-			//args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+			args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+			args.putInt(ARG_SECTION_ID, category.getId());
+			args.putString(ARG_SECTION_NAME, category.getCategoryName());
 			fragment.setArguments(args);
 			return fragment;
 		}
@@ -134,15 +138,40 @@ public class MainActivity extends ActionBarActivity implements
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_main, container,
 					false);
+			sectionLabel = (TextView)rootView.findViewById(R.id.section_label);
+			itemContent = (ListView)rootView.findViewById(R.id.itemContent);
+			db = new TrackerDBHelper(getActivity());
+			updateContent();
 			return rootView;
+		}
+		
+		public void updateContent(){
+			String title = getArguments().getString(ARG_SECTION_NUMBER);
+			int position = getArguments().getInt(ARG_SECTION_NUMBER);
+			int id = getArguments().getInt(ARG_SECTION_ID);
+			sectionLabel.setText(title);
+			
+			ArrayList<Item> items = db.getItemsByCategory(id);
+			int size = items.size();
+			itemListviewVal = new Item[size];
+			String[] l = new String[size];
+			for(int i=0;i<size;i++){
+				itemListviewVal[i] = items.get(i);
+				l[i] = String.valueOf(items.get(i).getItemPrice());
+			}
+			ArrayAdapter<String> a = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_list_item_1,l);
+			itemContent.setAdapter(a);
 		}
 
 		@Override
 		public void onAttach(Activity activity) {
 			super.onAttach(activity);
-			((MainActivity) activity).onSectionAttached(getArguments().getString(
-					ARG_SECTION_NUMBER));
+			String title = getArguments().getString(ARG_SECTION_NAME);
+			int position = getArguments().getInt(ARG_SECTION_NUMBER);
+			int id = getArguments().getInt(ARG_SECTION_ID);
+			((MainActivity) activity).onSectionAttached(position, id, title);
 		}
+
 	}
 
 }

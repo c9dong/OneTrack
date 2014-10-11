@@ -1,5 +1,7 @@
 package com.example.DrawerListView;
 
+import com.example.SQLiteDB.Category;
+
 public class DrawerListModel {
 	
 	private int tableId;
@@ -29,5 +31,9 @@ public class DrawerListModel {
 	}
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
+	}
+	public Category toCategory(){
+		Category category = new Category(tableId, categoryName);
+		return category;
 	}
 }

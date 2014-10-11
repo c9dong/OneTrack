@@ -96,10 +96,10 @@ public class NavigationDrawerFragment extends Fragment {
 		
 		setListData();
 		// Select either the default item (0) or the last selected item.
-		String title = drawerListViewValueArr[mCurrentSelectedPosition].getCategoryName();
+		Category category = drawerListViewValueArr[mCurrentSelectedPosition].toCategory();
 		//String title = "title";
 		//Log.v("current position", ""+mCurrentSelect0edPosition);
-		selectItem(mCurrentSelectedPosition,title);
+		selectItem(mCurrentSelectedPosition,category);
 	}
 
 	@Override
@@ -121,10 +121,10 @@ public class NavigationDrawerFragment extends Fragment {
 					public void onItemClick(AdapterView<?> parent, View view,
 							int position, long id) {
 						mCurrentSelectedPosition = position;
-						String title = drawerListViewValueArr[mCurrentSelectedPosition].getCategoryName();
-						Log.v(title, ""+mCurrentSelectedPosition);
+						Category category = drawerListViewValueArr[mCurrentSelectedPosition].toCategory();
+						//Log.v(title, ""+mCurrentSelectedPosition);
 						//String title = "title";
-						selectItem(position,title);
+						selectItem(position,category);
 					}
 				});
 		setListData();
@@ -243,7 +243,7 @@ public class NavigationDrawerFragment extends Fragment {
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 	}
 
-	private void selectItem(int position, String title) {
+	private void selectItem(int position, Category category) {
 		mCurrentSelectedPosition = position;
 		if (mDrawerListView != null) {
 			mDrawerListView.setItemChecked(position, true);
@@ -252,7 +252,7 @@ public class NavigationDrawerFragment extends Fragment {
 			mDrawerLayout.closeDrawer(mFragmentContainerView);
 		}
 		if (mCallbacks != null) {
-			mCallbacks.onNavigationDrawerItemSelected(position,title);
+			mCallbacks.onNavigationDrawerItemSelected(position,category);
 		}
 	}
 
@@ -306,7 +306,7 @@ public class NavigationDrawerFragment extends Fragment {
 		}
 
 		if (item.getItemId() == R.id.action_example) {
-			Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT)
+			Toast.makeText(getActivity(), drawerListViewValueArr[mCurrentSelectedPosition].getCategoryName(), Toast.LENGTH_SHORT)
 					.show();
 			return true;
 		}
@@ -338,6 +338,6 @@ public class NavigationDrawerFragment extends Fragment {
 		/**
 		 * Called when an item in the navigation drawer is selected.
 		 */
-		void onNavigationDrawerItemSelected(int position,String title);
+		void onNavigationDrawerItemSelected(int position,Category category);
 	}
 }

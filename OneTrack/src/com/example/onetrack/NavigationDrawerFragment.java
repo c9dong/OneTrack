@@ -19,8 +19,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.DrawerListView.DrawerAdapter;
@@ -61,6 +63,7 @@ public class NavigationDrawerFragment extends Fragment {
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerListView;
 	private View mFragmentContainerView;
+	private Button mAddCategoryBtn;
 
 	private int mCurrentSelectedPosition = 0;
 	private boolean mFromSavedInstanceState;
@@ -114,8 +117,12 @@ public class NavigationDrawerFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		mDrawerListView = (ListView) inflater.inflate(
-				R.layout.fragment_navigation_drawer, container, false);
+		
+		View rootView = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+		
+		//mDrawerListView = (ListView) inflater.inflate(
+		//		R.layout.fragment_navigation_drawer, container, false);
+		mDrawerListView = (ListView)rootView.findViewById(R.id.drawerListview);
 		mDrawerListView
 				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 					@Override
@@ -135,9 +142,24 @@ public class NavigationDrawerFragment extends Fragment {
 
 		mDrawerListView.setAdapter(adapter);
 		mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-		return mDrawerListView;
+		
+		mAddCategoryBtn = (Button)rootView.findViewById(R.id.addCategoryBtn);
+		
+		mAddCategoryBtn.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View view) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(getActivity(), AddItemActivity.class);
+				startActivity(intent);
+			}
+			
+		});
+		
+		return rootView;
 	}
 
+	
 	 private void setListData(){
 	//	 dbHelper.dropTable();
 		 ArrayList<Category> allCategories = dbHelper.getAllCategory();

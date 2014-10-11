@@ -3,6 +3,7 @@ package com.example.onetrack;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -13,7 +14,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,7 +22,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.DrawerListView.DrawerAdapter;
 import com.example.DrawerListView.DrawerListModel;
@@ -71,6 +70,8 @@ public class NavigationDrawerFragment extends Fragment {
 	private DrawerAdapter adapter;
 	
 	private TrackerDBHelper dbHelper;
+	
+	public static final String CATEGORY_ID = "Category Id";
 	
 	public NavigationDrawerFragment() {
 	}
@@ -306,8 +307,11 @@ public class NavigationDrawerFragment extends Fragment {
 		}
 
 		if (item.getItemId() == R.id.action_example) {
-			Toast.makeText(getActivity(), drawerListViewValueArr[mCurrentSelectedPosition].getCategoryName(), Toast.LENGTH_SHORT)
-					.show();
+			//Toast.makeText(getActivity(), drawerListViewValueArr[mCurrentSelectedPosition].getCategoryName(), Toast.LENGTH_SHORT)
+			//		.show();
+			Intent intent = new Intent(getActivity(),AddItemActivity.class);
+			intent.putExtra(CATEGORY_ID, drawerListViewValueArr[mCurrentSelectedPosition].getTableId());
+			startActivity(intent);
 			return true;
 		}
 

@@ -34,6 +34,8 @@ public class AddItemActivity extends ActionBarActivity {
 	Button submitBtn;
 	Button cancelBtn;
 	
+	private int mCurrentSpinnerSelected;
+	
 	ArrayAdapter<Category> categoryAdapter;
 	Category[] categorySpinnerVal;
 	public static final String RETURN_ID = "return_id";
@@ -52,8 +54,26 @@ public class AddItemActivity extends ActionBarActivity {
 		submitBtn = (Button)findViewById(R.id.submitBtn);
 		cancelBtn = (Button)findViewById(R.id.cancelBtn);
 		
+		Intent intent = getIntent();
+		int categoryId = intent.getIntExtra(NavigationDrawerFragment.CATEGORY_ID, 1);
+		
 		db = new TrackerDBHelper(this);
 		populateSpinner();
+		
+		mCurrentSpinnerSelected = findSpinnerPosition(categoryId);
+		
+		category.setSelection(mCurrentSpinnerSelected);
+		
+		
+	}
+	
+	private int findSpinnerPosition(int categoryId){
+		for(int i=0;i<categorySpinnerVal.length;i++){
+			if(categorySpinnerVal[i].getId()==categoryId){
+				return i;
+			}
+		}
+		return 0;
 	}
 	
 	private void populateSpinner(){

@@ -11,7 +11,7 @@ public class Item {
 	
 	public Item(int id, int categoryId, String category, double itemPrice, String itemComment, String itemDate){
 		this.id = id;
-		this.categoryId = id;
+		this.categoryId = categoryId;
 		this.category = category;
 		this.itemPrice = Math.round(itemPrice*100.0)/100.0;
 		this.itemComment = itemComment;

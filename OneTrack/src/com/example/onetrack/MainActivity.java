@@ -3,6 +3,7 @@ package com.example.onetrack;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.SQLiteDB.Category;
 import com.example.SQLiteDB.Item;
@@ -51,6 +53,13 @@ public class MainActivity extends ActionBarActivity implements
 		// Set up the drawer.
 		mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
 				(DrawerLayout) findViewById(R.id.drawer_layout));
+		
+		Intent intent = getIntent();
+		int return_id = intent.getIntExtra(AddItemActivity.RETURN_ID, -1);
+		if(return_id==2){
+			Toast toast = Toast.makeText(this, "Canceled item", Toast.LENGTH_SHORT);
+			toast.show();
+		}
 	}
 
 	@Override

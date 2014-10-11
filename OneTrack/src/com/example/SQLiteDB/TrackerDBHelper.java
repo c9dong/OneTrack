@@ -82,13 +82,13 @@ public class TrackerDBHelper extends SQLiteOpenHelper{
 		db.execSQL(CATEGORY_TABLE_INITIALIZE_GROCERY);
 		db.execSQL(CATEGORY_TABLE_INITIALIZE_EDUCATION);
 		
-		ContentValues values = new ContentValues();
-		values.put(ITEM_CATEGORY_ID, 2);
-		values.put(ITEM_CATEGORY, "Entertainment");
-		values.put(ITEM_PRICE, 1.2);
-		values.put(ITEM_COMMENT, "Hello");
-		values.put(ITEM_DATE, "2014-01-01");
-		db.insert(ITEM_TABLE_NAME, null, values);
+//		ContentValues values = new ContentValues();
+//		values.put(ITEM_CATEGORY_ID, 2);
+//		values.put(ITEM_CATEGORY, "Entertainment");
+//		values.put(ITEM_PRICE, 1.2);
+//		values.put(ITEM_COMMENT, "Hello");
+//		values.put(ITEM_DATE, "2014-01-01");
+//		db.insert(ITEM_TABLE_NAME, null, values);
 	}
 
 	@Override

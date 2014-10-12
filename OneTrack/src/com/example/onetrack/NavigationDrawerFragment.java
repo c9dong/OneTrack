@@ -98,7 +98,15 @@ public class NavigationDrawerFragment extends Fragment {
 		
 		dbHelper = new TrackerDBHelper(getActivity());
 		
-		setListData();
+		//setListData();
+		ArrayList<Category> allCategories = dbHelper.getAllCategory();
+		 int size = allCategories.size();
+		 drawerListViewValueArr = new DrawerListModel[size];
+		 for(int i=0;i<size;i++){
+			 drawerListViewValueArr[i] = new DrawerListModel(allCategories.get(i).getId(),
+					 R.drawable.ic_launcher,
+					 allCategories.get(i).getCategoryName());
+		 }
 		// Select either the default item (0) or the last selected item.
 		Category category = drawerListViewValueArr[mCurrentSelectedPosition].toCategory();
 		//String title = "title";
@@ -136,11 +144,9 @@ public class NavigationDrawerFragment extends Fragment {
 					}
 				});
 		setListData();
-		adapter = new DrawerAdapter(getActionBar()
-				.getThemedContext(), R.layout.drawer_tab_item,
-				android.R.id.text1, drawerListViewValueArr);
-		mDrawerListView.setAdapter(adapter);
-		mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+		
+		
+		
 		
 		mAddCategoryBtn = (Button)rootView.findViewById(R.id.addCategoryBtn);
 		
@@ -170,6 +176,12 @@ public class NavigationDrawerFragment extends Fragment {
 					 R.drawable.ic_launcher,
 					 allCategories.get(i).getCategoryName());
 		 }
+		 adapter = new DrawerAdapter(getActionBar()
+					.getThemedContext(), R.layout.drawer_tab_item,
+					android.R.id.text1, drawerListViewValueArr);
+		 mDrawerListView.setAdapter(adapter);
+		 mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+
 	 }
 	
 	public boolean isDrawerOpen() {
@@ -288,6 +300,13 @@ public class NavigationDrawerFragment extends Fragment {
 			throw new ClassCastException(
 					"Activity must implement NavigationDrawerCallbacks.");
 		}
+	}
+	
+	
+	@Override
+	public void onResume(){
+		super.onResume();
+		setListData();
 	}
 
 	@Override

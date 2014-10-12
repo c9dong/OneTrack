@@ -114,6 +114,7 @@ public class MainActivity extends ActionBarActivity implements
 		return super.onOptionsItemSelected(item);
 	}
 
+	
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
@@ -179,7 +180,13 @@ public class MainActivity extends ActionBarActivity implements
 			//ArrayAdapter<String> a = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_list_item_1,l);
 			itemContent.setAdapter(a);
 		}
-
+		
+		@Override
+		public void onResume(){
+			super.onResume();
+			updateContent();
+		}
+		
 		@Override
 		public void onAttach(Activity activity) {
 			super.onAttach(activity);

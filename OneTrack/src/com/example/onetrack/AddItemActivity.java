@@ -110,10 +110,11 @@ public class AddItemActivity extends ActionBarActivity {
 	}
 	
 	public void cancelBtnClick(View view){
-		Intent intent = new Intent(this,MainActivity.class);
-		int returnId = 2;
-		intent.putExtra(RETURN_ID, returnId);
-		startActivity(intent);
+		//Intent intent = new Intent(this,MainActivity.class);
+		//int returnId = 2;
+		//intent.putExtra(RETURN_ID, returnId);
+		this.finish();
+		//this.startActivity(intent);
 	}
 	
 	@Override

@@ -48,9 +48,10 @@ public class AddCategoryActivity extends ActionBarActivity {
 	}
 	
 	public void onBackBtnClick(View view){
-		Intent intent = new Intent(this,MainActivity.class);
-		intent.putExtra(ADD_CATEGORY_BACK, 1);
-		startActivity(intent);
+		//Intent intent = new Intent(this,MainActivity.class);
+		//intent.putExtra(ADD_CATEGORY_BACK, 1);
+		this.finish();
+		//startActivity(intent);
 	}
 	
 	@Override

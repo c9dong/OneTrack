@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ItemListView.ItemAdapter;
 import com.example.SQLiteDB.Category;
 import com.example.SQLiteDB.Item;
 import com.example.SQLiteDB.TrackerDBHelper;
@@ -55,9 +56,14 @@ public class MainActivity extends ActionBarActivity implements
 				(DrawerLayout) findViewById(R.id.drawer_layout));
 		
 		Intent intent = getIntent();
-		int return_id = intent.getIntExtra(AddItemActivity.RETURN_ID, -1);
-		if(return_id==2){
+		int return_id_item = intent.getIntExtra(AddItemActivity.RETURN_ID, -1);
+		int return_id_category = intent.getIntExtra(AddCategoryActivity.ADD_CATEGORY_BACK, -1);
+		if(return_id_item==2){
 			Toast toast = Toast.makeText(this, "Canceled item", Toast.LENGTH_SHORT);
+			toast.show();
+		}
+		if(return_id_category==1){
+			Toast toast = Toast.makeText(this, "Canceled Category", Toast.LENGTH_SHORT);
 			toast.show();
 		}
 	}
@@ -168,7 +174,9 @@ public class MainActivity extends ActionBarActivity implements
 				itemListviewVal[i] = items.get(i);
 				l[i] = String.valueOf(items.get(i).getItemPrice());
 			}
-			ArrayAdapter<String> a = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_list_item_1,l);
+			ItemAdapter a = new ItemAdapter(this.getActivity(), R.layout.main_item,
+				android.R.id.text1, itemListviewVal);
+			//ArrayAdapter<String> a = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_list_item_1,l);
 			itemContent.setAdapter(a);
 		}
 

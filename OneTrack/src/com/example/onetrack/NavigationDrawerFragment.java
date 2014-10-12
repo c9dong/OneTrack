@@ -104,7 +104,7 @@ public class NavigationDrawerFragment extends Fragment {
 		//String title = "title";
 		//Log.v("current position", ""+mCurrentSelect0edPosition);
 		selectItem(mCurrentSelectedPosition,category);
-	}
+	 }
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -139,7 +139,6 @@ public class NavigationDrawerFragment extends Fragment {
 		adapter = new DrawerAdapter(getActionBar()
 				.getThemedContext(), R.layout.drawer_tab_item,
 				android.R.id.text1, drawerListViewValueArr);
-
 		mDrawerListView.setAdapter(adapter);
 		mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 		
@@ -150,7 +149,7 @@ public class NavigationDrawerFragment extends Fragment {
 			@Override
 			public void onClick(View view) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(getActivity(), AddItemActivity.class);
+				Intent intent = new Intent(getActivity(), AddCategoryActivity.class);
 				startActivity(intent);
 			}
 			
@@ -158,10 +157,11 @@ public class NavigationDrawerFragment extends Fragment {
 		
 		return rootView;
 	}
-
+	
 	
 	 private void setListData(){
 	//	 dbHelper.dropTable();
+		 
 		 ArrayList<Category> allCategories = dbHelper.getAllCategory();
 		 int size = allCategories.size();
 		 drawerListViewValueArr = new DrawerListModel[size];
@@ -249,7 +249,7 @@ public class NavigationDrawerFragment extends Fragment {
 		};
 
 		// If the user hasn't 'learned' about the drawer, open it to introduce
-		// them to the drawer,
+		// them to the drawer,0
 		// per the navigation drawer design guidelines.
 		if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
 			mDrawerLayout.openDrawer(mFragmentContainerView);

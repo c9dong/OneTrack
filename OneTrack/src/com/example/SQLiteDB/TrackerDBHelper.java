@@ -10,10 +10,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class TrackerDBHelper extends SQLiteOpenHelper{
 	
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 3;
 	
 	//Database name
-	private static final String DATABASE_NAME = "Tracker";
+	private static final String DATABASE_NAME = "Tracker"; 
 	
 	//Table name
 	private static final String CATEGORY_TABLE_NAME = "Category";
@@ -192,13 +192,9 @@ public class TrackerDBHelper extends SQLiteOpenHelper{
 	}
 	
 	public void deleteCategory(Category category){
-		String CATEGORY_DELETE = 
-				"DELETE FROM " + CATEGORY_TABLE_NAME + " " + 
-						"WHERE " + CATEGORY_ID + " = ?;";
-		String[] selectArgs = {String.valueOf(category.getId())};
-		
 		SQLiteDatabase db = this.getWritableDatabase();
-		db.rawQuery(CATEGORY_DELETE, selectArgs);
+		//db.rawQuery(CATEGORY_DELETE, selectArgs);
+		db.delete(CATEGORY_TABLE_NAME, CATEGORY_ID + " = " + String.valueOf(category.getId()), null);
 		db.close();
 	}
 	
@@ -266,8 +262,8 @@ public class TrackerDBHelper extends SQLiteOpenHelper{
 	
 	public ArrayList<Item> getItemsByCategory(int categoryId){
 		if(categoryId == 1){	
-			//return getAllItems();
-			return new ArrayList<Item>();
+			return getAllItems();
+			//return new ArrayList<Item>();
 		}else{
 			ArrayList<Item> items = new ArrayList<Item>();
 			String ITEM_GET_CATEGORY = 
@@ -314,6 +310,13 @@ public class TrackerDBHelper extends SQLiteOpenHelper{
 		values.put(ITEM_DATE, item.getitemDate());
 		
 		db.insert(ITEM_TABLE_NAME, null, values);
+		db.close();
+	}
+	
+	public void deleteItem(Item item){
+		SQLiteDatabase db = this.getWritableDatabase();
+		//db.rawQuery(CATEGORY_DELETE, selectArgs);
+		db.delete(ITEM_TABLE_NAME, ITEM_ID + " = " + String.valueOf(item.getId()), null);
 		db.close();
 	}
 	
